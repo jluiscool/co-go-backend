@@ -43,13 +43,15 @@ model Friend {
 }
 
 model Experience {
-  id          String   @id @default(cuid())
-  name        String
-  cost        Float
-  time        DateTime
-  location    String
-  description String
-  Trip        Trip[]
+  id           String   @id @default(cuid())
+  name         String
+  cost         Float
+  time         DateTime
+  location     String
+  description  String
+  Trip         Trip[]
+  activityName String
+  activity     Activity @relation(fields: [activityName], references: [name])
 }
 
 model Trip {
@@ -92,4 +94,13 @@ model FriendInvite {
   sender     User     @relation("FriendInviteSender", fields: [senderId], references: [id])
   receiverId String
   receiver   User     @relation("FriendInviteReceiver", fields: [receiverId], references: [id])
+}
+
+model Activity {
+  name             String       @unique
+  outdoors         Boolean
+  indoors          Boolean
+  timeSensitive    Boolean
+  weatherDependent Boolean
+  Experience       Experience[]
 }
